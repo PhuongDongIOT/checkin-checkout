@@ -47,13 +47,13 @@ export default function InvitationCard() {
       {/* Invitation Card */}
       <div
         ref={cardRef}
-        className="w-[350px] h-[500px] shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
+        className="w-[350px] h-[500px] rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
       >
         {avatarUrl ? (
           <img
             src={avatarUrl}
             alt="avatar"
-            className="w-32 h-32 object-cover rounded-full shadow"
+            className="w-32 h-32 object-cover rounded-full"
           />
         ) : (
           <div className="w-32 h-32  rounded-full"></div>
