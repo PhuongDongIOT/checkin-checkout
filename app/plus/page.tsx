@@ -1,5 +1,5 @@
 import QrGenerator from "@/components/atoms/qr-generator";
-import QrScanner from "@/components/atoms/qr-scanner";
+// import QrScanner from "@/components/atoms/qr-scanner";
 
 export default function HomePage() {
     return (

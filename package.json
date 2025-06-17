@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.5",
+    "cloudinary": "^2.6.1",
+    "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
     "qrcode": "^1.5.4",
     "qrcode.react": "^4.2.0",
