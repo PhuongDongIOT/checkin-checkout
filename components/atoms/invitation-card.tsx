@@ -47,21 +47,21 @@ export default function InvitationCard() {
       {/* Invitation Card */}
       <div
         ref={cardRef}
-        className="w-[350px] h-[500px] rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
+        className="w-[350px] h-[500px] bg-gradient-to-br from-pink-100 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
       >
         {avatarUrl ? (
           <img
             src={avatarUrl}
             alt="avatar"
-            className="w-32 h-32 object-cover rounded-full"
+            className="w-32 h-32 object-cover rounded-full shadow"
           />
         ) : (
-          <div className="w-32 h-32  rounded-full"></div>
+          <div className="w-32 h-32 bg-gray-200 rounded-full"></div>
         )}
         <h2 className="text-xl font-bold">{name}</h2>
-        <p className="text-lg">You're invited to</p>
-        <h3 className="text-2xl font-semibold">{event}</h3>
-        <p className="text-sm mt-4">Save the date!</p>
+        <p className="text-lg text-gray-700">You're invited to</p>
+        <h3 className="text-2xl font-semibold text-purple-600">{event}</h3>
+        <p className="text-sm text-gray-500 mt-4">Save the date!</p>
       </div>
 
       <button
