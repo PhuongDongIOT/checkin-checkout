@@ -53,23 +53,8 @@ export async function POST(req: Request) {
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const base64 = Buffer.from(arrayBuffer).toString('base64');
+    // const base64 = Buffer.from(arrayBuffer).toString('base64');
 
-    const email = await resend.emails.send({
-        from: 'anything@marketing.dxmd.vn',
-        to,
-        subject: 'Your QR Code',
-        html: `
-            <p>Chào ${name}, đây là mã QR của bạn:</p>`,
-         attachments: [
-    {
-      filename: 'logo.png',
-      content: base64,
-    },
-  ],
-    });
-
-    console.log(email);
 
 
     if (!file) {
@@ -96,7 +81,19 @@ export async function POST(req: Request) {
         Readable.from(buffer).pipe(uploadStream);
     });
 
-    await appendRow();
+    const imageUrl = (result as any).secure_url;
+
+    
+
+     await resend.emails.send({
+        from: 'anything@marketing.dxmd.vn',
+        to,
+        subject: 'Your QR Code',
+        html: `
+            <p>Chào ${name}, đây là mã QR của bạn:</p>
+            <img src="${imageUrl}" alt="Ảnh" />`,
+    });
+
 
     return NextResponse.json({ success: true, result });
 }
