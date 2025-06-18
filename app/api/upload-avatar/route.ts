@@ -24,21 +24,21 @@ function streamToBuffer(stream: Readable): Promise<Buffer> {
 
 
 function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-    reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
 
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        resolve(reader.result);
-      } else {
-        reject('Failed to convert to base64');
-      }
-    };
+        reader.onload = () => {
+            if (typeof reader.result === 'string') {
+                resolve(reader.result);
+            } else {
+                reject('Failed to convert to base64');
+            }
+        };
 
-    reader.onerror = (error) => reject(error);
-  });
+        reader.onerror = (error) => reject(error);
+    });
 }
 
 
@@ -52,7 +52,8 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Missing email or QR data' }, { status: 400 });
     }
 
-    const base64 = await fileToBase64(file);
+    const arrayBuffer = await file.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
 
     const email = await resend.emails.send({
         from: 'noreply@yourdomain.com',
@@ -65,13 +66,12 @@ export async function POST(req: Request) {
     });
 
     console.log(email);
-    
+
 
     if (!file) {
         return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
     const result = await new Promise((resolve, reject) => {
