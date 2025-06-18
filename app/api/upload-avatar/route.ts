@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     const base64 = Buffer.from(arrayBuffer).toString('base64');
 
     const email = await resend.emails.send({
-        from: 'noreply@yourdomain.com',
+        from: 'anything@marketing.dxmd.vn',
         to,
         subject: 'Your QR Code',
         html: `
