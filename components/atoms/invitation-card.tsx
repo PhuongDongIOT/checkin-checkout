@@ -47,7 +47,7 @@ export default function InvitationCard() {
       {/* Invitation Card */}
       <div
         ref={cardRef}
-        className="w-[350px] h-[500px] bg-gradient-to-br from-pink-100 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
+        className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
       >
         {avatarUrl ? (
           <img
