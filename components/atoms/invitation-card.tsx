@@ -24,8 +24,9 @@ export function base64ToFile(base64: string, filename: string): File {
 
 export default function InvitationCard() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [name, setName] = useState<string>('John Doe');
-  const [event, setEvent] = useState<string>('Birthday Party');
+  const [isAllow, setIsAllow] = useState<boolean>(false)
+  const [name, setName] = useState<string>('Nguyễn Văn A');
+  const [event, setEvent] = useState<string>('Chúc mừng sinh nhật');
   const [mail, setMail] = useState<string>('phuongdongiot@gmail.com');
   const cardRef = useRef<HTMLDivElement>(null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
@@ -64,7 +65,7 @@ export default function InvitationCard() {
         body: formData,
       });
       const data = await res.json();
-
+      setIsAllow(false);
       link.click();
     }
   };
@@ -73,6 +74,7 @@ export default function InvitationCard() {
     setName(name)
     setEvent(event)
     setMail(mail)
+    setIsAllow(true);
   }
 
   return (
@@ -123,12 +125,12 @@ export default function InvitationCard() {
           <p className="text-sm text-gray-500 mt-4">Save the date!</p>
         </div>
 
-        <button
+        {isAllow ? <button
           onClick={handleDownload}
           className="bg-green-600 text-white mx-2 py-2 rounded hover:bg-green-700 w-full"
         >
           Tải thẻ mời xuống
-        </button>
+        </button> : null}
       </div>
     </div>
   );

@@ -82,6 +82,7 @@ export async function POST(req: Request) {
     });
 
     const imageUrl = (result as any).secure_url;
+    
 
     
 
@@ -91,7 +92,7 @@ export async function POST(req: Request) {
         subject: 'Your QR Code',
         html: `
             <p>Chào ${name}, đây là mã QR của bạn:</p>
-            <img src="${imageUrl}" alt="Ảnh" />`,
+            <img src='${imageUrl}' alt='' />`,
     });
 
 

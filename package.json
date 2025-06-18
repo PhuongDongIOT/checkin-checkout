@@ -43,6 +43,7 @@
     "@csstools/postcss-oklab-function": "^4.0.10",
     "@tanstack/react-form": "^1.12.3",
     "@types/qrcode": "^1.5.5",
+    "@upstash/ratelimit": "^2.0.5",
     "cloudinary": "^2.6.1",
     "framer-motion": "^12.18.1",
     "googleapis": "^150.0.1",
