@@ -26,6 +26,7 @@ export default function InvitationCard() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [name, setName] = useState<string>('John Doe');
   const [event, setEvent] = useState<string>('Birthday Party');
+  const [mail, setMail] = useState<string>('phuongdongiot@gmail.com');
   const cardRef = useRef<HTMLDivElement>(null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     signUp, { error: '' }
@@ -51,7 +52,9 @@ export default function InvitationCard() {
       const file = base64ToFile(base64, 'avatar.png');
       const formData = new FormData();
       formData.append('avatar', file);
-      formData.append('email', 'phuongdong@gmail.com');
+      formData.append('name', name);
+      formData.append('mail', mail);
+      formData.append('email', mail);
       formData.append('password', 'password');
       startTransition(() => {
         formAction(formData)
@@ -61,58 +64,72 @@ export default function InvitationCard() {
         body: formData,
       });
       const data = await res.json();
-      console.log(data);
-      
+
       link.click();
     }
   };
 
-  const changeValueEvent = (name = '', event = '') => {
+  const changeValueEvent = (name = '', event = '', mail = '') => {
     setName(name)
     setEvent(event)
+    setMail(mail)
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 p-6">
-      <input type="file" accept="image/*" onChange={handleUpload} />
-      <FormExample onCallBack={changeValueEvent} />
-      <div
-        ref={cardRef}
-        className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
-      >
-        <div className='relative'>
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              alt="avatar"
-              className="w-44 h-44 object-cover rounded-full shadow"
-            />
-          ) : (
-            <div className="w-44 h-44 bg-gray-200 rounded-full"></div>
-          )}
-          <div className="w-12 h-12 absolute -bottom-4 right-0">
-            <QRCodeCanvas
-              value={name}
-              size={46}
-              bgColor="#ffffff"
-              fgColor="#000000"
-              level="H"
-              includeMargin
-            />
-          </div>
-        </div>
-        <h2 className="text-xl font-bold">{name}</h2>
-        <p className="text-lg text-gray-700">You're invited to</p>
-        <h3 className="text-2xl font-semibold text-purple-600">{event}</h3>
-        <p className="text-sm text-gray-500 mt-4">Save the date!</p>
-      </div>
+    <div className='mx-auto max-w-sm'>
+      <div className="flex flex-col items-center gap-4 p-6">
+        <div className="mb-4 w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Tải ảnh lên:</label>
 
-      <button
-        onClick={handleDownload}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-      >
-        Tải thẻ mời xuống
-      </button>
+          <label className="flex items-center justify-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition">
+            <span className="text-sm text-gray-700">Chọn ảnh từ thiết bị</span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleUpload}
+              className="hidden"
+            />
+          </label>
+        </div>
+        <FormExample onCallBack={changeValueEvent} />
+        <div
+          ref={cardRef}
+          className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
+        >
+          <div className='relative'>
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="avatar"
+                className="w-44 h-44 object-cover rounded-full shadow"
+              />
+            ) : (
+              <div className="w-44 h-44 bg-gray-200 rounded-full"></div>
+            )}
+            <div className="w-12 h-12 absolute -bottom-4 right-0">
+              <QRCodeCanvas
+                value={`DXMD-${name}`}
+                size={46}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="H"
+                includeMargin
+              />
+            </div>
+          </div>
+          <h2 className="text-xl font-bold">{name}</h2>
+          <p className="text-lg text-gray-700">You're invited to</p>
+          <h3 className="text-2xl font-semibold text-purple-600">{event}</h3>
+          <p className="text-sm text-gray-500 mt-4">Save the date!</p>
+        </div>
+
+        <button
+          onClick={handleDownload}
+          className="bg-green-600 text-white mx-2 py-2 rounded hover:bg-green-700 w-full"
+        >
+          Tải thẻ mời xuống
+        </button>
+      </div>
     </div>
   );
 }

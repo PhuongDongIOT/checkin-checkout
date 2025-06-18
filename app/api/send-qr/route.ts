@@ -21,7 +21,7 @@ export async function POST(req: Request) {
             subject: 'Your QR Code',
             html: `
         <p>Chào bạn, đây là mã QR của bạn:</p>
-        <img src="${qrImageDataUrl}" alt="QR Code" style="width:200px;" />
+        <img src="${qrImageDataUrl}" alt="QR Code" style="width:400px;" />
       `,
         });
 

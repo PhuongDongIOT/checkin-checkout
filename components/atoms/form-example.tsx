@@ -14,7 +14,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 type FormExampleProps = {
-    onCallBack: (name: string, eventevent: string) => void;
+    onCallBack: (name: string, eventevent: string, mail: string) => void;
 }
 
 export default function FormExample({ onCallBack }: FormExampleProps) {
@@ -22,26 +22,26 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
         defaultValues: {
             name: '',
             event: '',
+            mail: '',
         },
         onSubmit: async ({ value }) => {
-            const {name, event} = value;
-            onCallBack(name, event);
+            const { name, event, mail } = value;
+            onCallBack(name, event, mail);
             console.log(value)
         },
     })
 
     return (
-        <div>
-            <h1>Simple Form Example</h1>
+        <div className='w-full'>
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
                     form.handleSubmit()
                 }}
+                className='w-full'
             >
                 <div>
-                    {/* A type-safe field component*/}
                     <form.Field
                         name="name"
                         validators={{
@@ -60,17 +60,22 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             },
                         }}
                         children={(field) => {
-                            // Avoid hasty abstractions. Render props are great!
                             return (
                                 <>
-                                    <label htmlFor={field.name}>First Name:</label>
-                                    <input
-                                        id={field.name}
-                                        name={field.name}
-                                        value={field.state.value}
-                                        onBlur={field.handleBlur}
-                                        onChange={(e) => field.handleChange(e.target.value)}
-                                    />
+                                    <div className="mb-4">
+                                        <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                            Họ và tên:
+                                        </label>
+                                        <input
+                                            id={field.name}
+                                            name={field.name}
+                                            value={field.state.value}
+                                            onBlur={field.handleBlur}
+                                            onChange={(e) => field.handleChange(e.target.value)}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                            placeholder="Nhập họ tên..."
+                                        />
+                                    </div>
                                     <FieldInfo field={field} />
                                 </>
                             )
@@ -82,14 +87,45 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                         name="event"
                         children={(field) => (
                             <>
-                                <label htmlFor={field.name}>Last Name:</label>
-                                <input
-                                    id={field.name}
-                                    name={field.name}
-                                    value={field.state.value}
-                                    onBlur={field.handleBlur}
-                                    onChange={(e) => field.handleChange(e.target.value)}
-                                />
+                                <div className="mb-4">
+                                    <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                        Sự kiện:
+                                    </label>
+                                    <input
+                                        id={field.name}
+                                        name={field.name}
+                                        value={field.state.value}
+                                        onBlur={field.handleBlur}
+                                        onChange={(e) => field.handleChange(e.target.value)}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+                                        placeholder="Nhập tên sự kiện..."
+                                    />
+                                </div>
+                                <FieldInfo field={field} />
+                            </>
+                        )}
+                    />
+                </div>
+                <div>
+                    <form.Field
+                        name="mail"
+                        children={(field) => (
+                            <>
+                                <div className="mb-4">
+                                    <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                        Mail:
+                                    </label>
+                                    <input
+                                        id={field.name}
+                                        name={field.name}
+                                        type="email"
+                                        value={field.state.value}
+                                        onBlur={field.handleBlur}
+                                        onChange={(e) => field.handleChange(e.target.value)}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                        placeholder="Nhập địa chỉ email..."
+                                    />
+                                </div>
                                 <FieldInfo field={field} />
                             </>
                         )}
@@ -98,8 +134,18 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                 <form.Subscribe
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                     children={([canSubmit, isSubmitting]) => (
-                        <button type="submit" disabled={!canSubmit}>
-                            {isSubmitting ? '...' : 'Submit'}
+                        <button
+                            type="submit"
+                            disabled={!canSubmit}
+                            className={`
+                                px-6 py-2 rounded-md font-medium transition w-full 
+                                ${canSubmit
+                                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
+                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                }
+                            `}
+                        >
+                            {isSubmitting ? 'Đang gửi...' : 'Gửi lời mời'}
                         </button>
                     )}
                 />

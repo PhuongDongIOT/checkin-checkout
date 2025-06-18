@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import { Resend } from 'resend';
+import QRCode from 'qrcode';
 import { appendRow } from '@/lib/services/sheet-google';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -18,9 +22,50 @@ function streamToBuffer(stream: Readable): Promise<Buffer> {
     });
 }
 
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+      } else {
+        reject('Failed to convert to base64');
+      }
+    };
+
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+
 export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get('avatar') as File;
+    const to = formData.get('mail') as string;
+    const name = formData.get('name') as string;
+
+    if (!to || !file) {
+        return NextResponse.json({ error: 'Missing email or QR data' }, { status: 400 });
+    }
+
+    const base64 = await fileToBase64(file);
+
+    const email = await resend.emails.send({
+        from: 'noreply@yourdomain.com',
+        to,
+        subject: 'Your QR Code',
+        html: `
+            <p>Chào ${name}, đây là mã QR của bạn:</p>
+            <img src="${base64}" alt="QR Code" style="width:200px;" />
+          `,
+    });
+
+    console.log(email);
+    
 
     if (!file) {
         return NextResponse.json({ error: 'No file provided' }, { status: 400 });
