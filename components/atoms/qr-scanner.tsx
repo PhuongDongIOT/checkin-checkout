@@ -32,10 +32,11 @@ const QrScanner = () => {
         qrbox: 250
       },
       (decodedText, decodedResult) => {
-        if (decodedText && !open && !isPending) {
-          setIsPending(true)
-          handleChange(decodedText)
-        }
+        // if (decodedText && !open && !isPending) {
+        //   setIsPending(true)
+        //   handleChange(decodedText)
+        // }
+        alert(decodedText)
         // Optionally: scanner.stop();
       },
       (errorMessage) => {
@@ -48,16 +49,16 @@ const QrScanner = () => {
     return () => {
       scanner.stop().catch(() => { });
     };
-  }, [open, isPending]);
+  }, []);
 
-  useEffect(() => {
-    if (!pending && (state.success || state.error)) {
-      console.log('✅ Transition done');
-      console.log('Result:', state);
-      setIsPending(false)
-      setOpen(true);
-    }
-  }, [pending, state]);
+  // useEffect(() => {
+  //   if (!pending && (state.success || state.error)) {
+  //     console.log('✅ Transition done');
+  //     console.log('Result:', state);
+  //     setIsPending(false)
+  //     setOpen(true);
+  //   }
+  // }, [pending, state]);
 
 
   return (
