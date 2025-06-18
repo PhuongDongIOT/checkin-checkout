@@ -42,7 +42,7 @@ const QrScanner = () => {
         // console.warn(`QR Code no match: ${errorMessage}`);
       }
     ).catch((err) => {
-      console.error("Error starting scanner", err);
+      // console.error("Error starting scanner", err);
     });
 
     return () => {
