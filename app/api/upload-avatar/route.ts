@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import { appendRow } from '@/lib/services/sheet-google';
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -33,8 +34,7 @@ export async function POST(req: Request) {
             {
                 folder: 'avatars',
                 transformation: [
-                    { width: 200, height: 200, crop: 'thumb', gravity: 'face' },
-                    { radius: 'max' }, // Make it circular
+                    { width: 300, height: 500, crop: 'thumb', gravity: 'face' },
                     { fetch_format: 'auto', quality: 'auto' }
                 ],
             },
@@ -46,6 +46,8 @@ export async function POST(req: Request) {
 
         Readable.from(buffer).pipe(uploadStream);
     });
+
+    await appendRow();
 
     return NextResponse.json({ success: true, result });
 }

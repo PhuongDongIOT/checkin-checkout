@@ -1,14 +1,36 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useActionState, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { QRCodeCanvas } from 'qrcode.react';
+import FormExample from './form-example';
+import { signUp } from '@/app/(login)/actions';
+import { ActionState } from '@/lib/auth/middleware';
+import { startTransition } from 'react';
+
+export function base64ToFile(base64: string, filename: string): File {
+  const arr = base64.split(',');
+  const mime = arr[0].match(/:(.*?);/)?.[1] || '';
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, { type: mime });
+}
 
 export default function InvitationCard() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [name, setName] = useState<string>('John Doe');
   const [event, setEvent] = useState<string>('Birthday Party');
   const cardRef = useRef<HTMLDivElement>(null);
+  const [state, formAction, pending] = useActionState<ActionState, FormData>(
+    signUp, { error: '' }
+  );
+
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -17,35 +39,43 @@ export default function InvitationCard() {
     }
   };
 
+
   const handleDownload = async () => {
+
     if (cardRef.current) {
       const canvas = await html2canvas(cardRef.current);
       const link = document.createElement('a');
       link.download = 'invitation-card.png';
-      link.href = canvas.toDataURL('image/png');
+      let base64 = canvas.toDataURL('image/png');
+      link.href = base64;
+      const file = base64ToFile(base64, 'avatar.png');
+      const formData = new FormData();
+      formData.append('avatar', file);
+      formData.append('email', 'phuongdong@gmail.com');
+      formData.append('password', 'password');
+      startTransition(() => {
+        formAction(formData)
+      })
+      const res = await fetch('/api/upload-avatar', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      console.log(data);
+      
       link.click();
     }
   };
 
+  const changeValueEvent = (name = '', event = '') => {
+    setName(name)
+    setEvent(event)
+  }
+
   return (
     <div className="flex flex-col items-center gap-4 p-6">
       <input type="file" accept="image/*" onChange={handleUpload} />
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Tên khách mời"
-        className="border px-2 py-1 rounded w-full max-w-sm"
-      />
-      <input
-        type="text"
-        value={event}
-        onChange={(e) => setEvent(e.target.value)}
-        placeholder="Sự kiện"
-        className="border px-2 py-1 rounded w-full max-w-sm"
-      />
-
-      {/* Invitation Card */}
+      <FormExample onCallBack={changeValueEvent} />
       <div
         ref={cardRef}
         className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"

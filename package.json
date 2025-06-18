@@ -41,8 +41,10 @@
   },
   "devDependencies": {
     "@csstools/postcss-oklab-function": "^4.0.10",
+    "@tanstack/react-form": "^1.12.3",
     "@types/qrcode": "^1.5.5",
     "cloudinary": "^2.6.1",
+    "googleapis": "^150.0.1",
     "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
     "qrcode": "^1.5.4",
