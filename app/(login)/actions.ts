@@ -98,6 +98,33 @@ const signUpSchema = z.object({
   inviteId: z.string().optional()
 });
 
+const userSchema = z.object({
+  email: z.string().email()
+});
+
+
+export const checkUser = validatedAction(userSchema, async (data, formData) => {
+  const { email } = data;
+
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (existingUser.length > 0) {
+    return {
+      success: email
+    };
+  }
+
+  return {
+    error: 'Please try again.',
+    email,
+  };
+
+})
+
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const { email, password, inviteId } = data;
 

@@ -32,8 +32,6 @@ export default function QrGenerator() {
                     className="w-12 h-12 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white shadow-md"
                 />
             </div>
-
-            <p className="text-sm text-gray-500">QR Code sẽ thay đổi theo nội dung bên trên.</p>
         </div>
     );
 }
