@@ -114,7 +114,7 @@ export const checkUser = validatedAction(userSchema, async (data, formData) => {
 
   if (existingUser.length > 0) {
     return {
-      success: email
+      success: 'successfully.'
     };
   }
 
