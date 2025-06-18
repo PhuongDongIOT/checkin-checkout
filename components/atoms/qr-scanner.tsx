@@ -36,9 +36,10 @@ const QrScanner = () => {
           setIsPending(true)
           handleChange(decodedText)
         }
+        // Optionally: scanner.stop();
       },
       (errorMessage) => {
-        console.warn(`QR Code no match: ${errorMessage}`);
+        // console.warn(`QR Code no match: ${errorMessage}`);
       }
     ).catch((err) => {
       console.error("Error starting scanner", err);
@@ -61,7 +62,7 @@ const QrScanner = () => {
 
   return (
     <div className="flex justify-center mt-10">
-      <div id="reader" style={{ width: "300px" }}></div>
+      <div id="reader" className={isPending ? 'hidden' : ''} style={{ width: "300px" }}></div>
       <AnimatedModal isOpen={open} onClose={() => setOpen(false)}>
         <h2 className="text-xl font-semibold mb-2">🎉 Welcome!</h2>
         <p className="text-gray-600 mb-4">Đây là modal chứa tên người dùng.</p>
