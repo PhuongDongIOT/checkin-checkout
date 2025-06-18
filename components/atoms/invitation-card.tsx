@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
+import { QRCodeCanvas } from 'qrcode.react';
 
 export default function InvitationCard() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -49,15 +50,27 @@ export default function InvitationCard() {
         ref={cardRef}
         className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center p-6 flex flex-col items-center justify-center gap-4"
       >
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt="avatar"
-            className="w-32 h-32 object-cover rounded-full shadow"
-          />
-        ) : (
-          <div className="w-32 h-32 bg-gray-200 rounded-full"></div>
-        )}
+        <div className='relative'>
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt="avatar"
+              className="w-44 h-44 object-cover rounded-full shadow"
+            />
+          ) : (
+            <div className="w-44 h-44 bg-gray-200 rounded-full"></div>
+          )}
+          <div className="w-12 h-12 absolute -bottom-4 right-0">
+            <QRCodeCanvas
+              value={name}
+              size={46}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              level="H"
+              includeMargin
+            />
+          </div>
+        </div>
         <h2 className="text-xl font-bold">{name}</h2>
         <p className="text-lg text-gray-700">You're invited to</p>
         <h3 className="text-2xl font-semibold text-purple-600">{event}</h3>
