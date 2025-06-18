@@ -36,10 +36,9 @@ const QrScanner = () => {
           setIsPending(true)
           handleChange(decodedText)
         }
-        // Optionally: scanner.stop();
       },
       (errorMessage) => {
-        // console.warn(`QR Code no match: ${errorMessage}`);
+        console.warn(`QR Code no match: ${errorMessage}`);
       }
     ).catch((err) => {
       console.error("Error starting scanner", err);
@@ -54,8 +53,6 @@ const QrScanner = () => {
     if (!pending && (state.success || state.error)) {
       console.log('✅ Transition done');
       console.log('Result:', state);
-
-      // Ví dụ: mở modal khi thành công
       setIsPending(false)
       setOpen(true);
     }
