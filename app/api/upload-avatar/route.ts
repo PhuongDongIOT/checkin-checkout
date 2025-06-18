@@ -60,9 +60,13 @@ export async function POST(req: Request) {
         to,
         subject: 'Your QR Code',
         html: `
-            <p>Chào ${name}, đây là mã QR của bạn:</p>
-            <img src="data:image/png;base64,${base64}" alt="QR Code" style="width:200px;" />
-          `,
+            <p>Chào ${name}, đây là mã QR của bạn:</p>`,
+         attachments: [
+    {
+      filename: 'logo.png',
+      content: base64,
+    },
+  ],
     });
 
     console.log(email);
