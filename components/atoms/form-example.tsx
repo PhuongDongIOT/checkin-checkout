@@ -145,7 +145,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                                 }
                             `}
                         >
-                            {isSubmitting ? 'Đang gửi...' : 'Gửi lời mời'}
+                            {isSubmitting ? 'Đang gửi...' : 'Tạo thiệp'}
                         </button>
                     )}
                 />
