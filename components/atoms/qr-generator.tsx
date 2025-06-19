@@ -1,24 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 
 export default function QrGenerator() {
-    const [value, setValue] = useState('https://example.com');
-
     return (
         <div className="flex flex-col items-center gap-4 p-6 relative">
-            <input
-                type="text"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                placeholder="Nhập nội dung / URL"
-                className="border p-2 w-80 rounded"
-            />
-
             <div className="relative w-[200px] h-[200px]">
                 <QRCodeCanvas
-                    value={value}
+                    value='https://example.com'
                     size={200}
                     bgColor="#ffffff"
                     fgColor="#000000"
