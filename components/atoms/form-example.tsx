@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useForm } from '@tanstack/react-form'
 import type { AnyFieldApi } from '@tanstack/react-form'
+import { event, FormEvent } from './invitation-card'
 
 function FieldInfo({ field }: { field: AnyFieldApi }) {
     return (
@@ -14,20 +15,14 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 type FormExampleProps = {
-    onCallBack: (name: string, eventevent: string, mail: string) => void;
+    onCallBack: (value: FormEvent) => void;
 }
 
 export default function FormExample({ onCallBack }: FormExampleProps) {
     const form = useForm({
-        defaultValues: {
-            name: '',
-            event: '',
-            mail: '',
-        },
+        defaultValues: event,
         onSubmit: async ({ value }) => {
-            const { name, event, mail } = value;
-            onCallBack(name, event, mail);
-            console.log(value)
+            onCallBack(value);
         },
     })
 
@@ -108,7 +103,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                 </div>
                 <div>
                     <form.Field
-                        name="mail"
+                        name="email"
                         children={(field) => (
                             <>
                                 <div className="mb-4">
