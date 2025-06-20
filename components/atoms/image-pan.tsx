@@ -10,7 +10,7 @@ export function ImagePan({ src }: ImagePanProps) {
     return (
         <TransformWrapper>
             <TransformComponent>
-                <img src={src} className="w-64 h-56" alt="test" />
+                <img src={src} className="w-56 h-44" alt="test" />
             </TransformComponent>
         </TransformWrapper>
     );

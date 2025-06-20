@@ -32,11 +32,19 @@ function UserMenu() {
   if (!user) {
     return (
       <>
-        <Button asChild className="rounded-md bg-blue-400">
+        <Button asChild className="rounded-md bg-amber-300">
           <Link href="/scans">Scans</Link>
         </Button>
         <Button asChild className="rounded-md bg-blue-400">
-          <Link href="/logout">Logout</Link>
+          <Link href="/invitations">Invitations</Link>
+        </Button>
+        <Button asChild className="rounded-md bg-gray-300">
+          <form action={handleSignOut}>
+            <button type="submit" className="flex w-full">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Sign out</span>
+            </button>
+          </form>
         </Button>
       </>
     );
