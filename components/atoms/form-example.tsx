@@ -58,7 +58,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             return (
                                 <>
                                     <div className="mb-2">
-                                        <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label htmlFor={field.name} className="block text-xs font-medium text-gray-700 mb-1">
                                             Họ và tên:
                                         </label>
                                         <input
@@ -67,7 +67,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                                             value={field.state.value}
                                             onBlur={field.handleBlur}
                                             onChange={(e) => field.handleChange(e.target.value)}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                            className="text-sm w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
                                             placeholder="Nhập họ tên..."
                                         />
                                     </div>
@@ -83,7 +83,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                         children={(field) => (
                             <>
                                 <div className="mb-2">
-                                    <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor={field.name} className="block text-xs font-medium text-gray-700 mb-1">
                                         Chức vụ:
                                     </label>
                                     <input
@@ -92,7 +92,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                                         value={field.state.value}
                                         onBlur={field.handleBlur}
                                         onChange={(e) => field.handleChange(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
+                                        className="text-sm w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out"
                                         placeholder="Nhập tên sự kiện..."
                                     />
                                 </div>
@@ -155,7 +155,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                         children={(field) => (
                             <>
                                 <div className="mb-2">
-                                    <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label htmlFor={field.name} className="block text-xs font-medium text-gray-700 mb-1">
                                         Mail:
                                     </label>
                                     <input
@@ -165,7 +165,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                                         value={field.state.value}
                                         onBlur={field.handleBlur}
                                         onChange={(e) => field.handleChange(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                        className="text-sm w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
                                         placeholder="Nhập địa chỉ email..."
                                     />
                                 </div>
