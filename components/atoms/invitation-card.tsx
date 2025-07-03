@@ -203,13 +203,13 @@ export default function InvitationCard() {
               </div>
             </div>
 
-            <form action={handleDownload}>
+            {isAllow ? <form action={handleDownload}>
               <button
                 className='mt-4 bg-cyan-200 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-300 w-full'
               >
                 Tải thẻ mời xuống
               </button>
-            </form>
+            </form> : null}
           </div>
           <LoadingModal isOpen={isPending} />
         </div>)}
