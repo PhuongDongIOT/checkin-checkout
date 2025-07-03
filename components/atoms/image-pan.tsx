@@ -9,8 +9,10 @@ type ImagePanProps = {
 export function ImagePan({ src }: ImagePanProps) {
     return (
         <TransformWrapper>
-            <TransformComponent>
-                <img src={src} className="w-56 h-56" alt="test" />
+            <TransformComponent wrapperClass="transform-component">
+                <div className="h-[100px] w-[100px]">
+                    <img src={src} className="h-full w-auto object-cover" alt="test" />
+                </div>
             </TransformComponent>
         </TransformWrapper>
     );

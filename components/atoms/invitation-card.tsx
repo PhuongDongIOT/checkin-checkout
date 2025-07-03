@@ -1,6 +1,6 @@
 'use client';
 
-import { startTransition, useActionState, useRef, useState } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { QRCodeCanvas } from 'qrcode.react';
 import FormExample from './form-example';
@@ -8,6 +8,8 @@ import { signUp } from '@/app/(login)/actions';
 import { ActionState } from '@/lib/auth/middleware';
 import LoadingModal from './loading-modal';
 import { ImagePan } from './image-pan';
+import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch';
+import { UploadCloud } from 'lucide-react';
 
 export type FormEvent = {
   name: string;
@@ -23,6 +25,8 @@ export const event: FormEvent = {
   field_three: '',
   email: '',
 }
+
+
 export function base64ToFile(base64: string, filename: string): File {
   const arr = base64.split(',');
   const mime = arr[0].match(/:(.*?);/)?.[1] || '';
@@ -38,11 +42,18 @@ export function base64ToFile(base64: string, filename: string): File {
 }
 
 export default function InvitationCard() {
+  const [zoomValue, setZoomValue] = useState(1);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isAllow, setIsAllow] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState<FormEvent>(event);
   const cardRef = useRef<HTMLDivElement>(null);
+  const transformRef = useRef<any>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleClick = () => {
+    inputRef.current?.click()
+  }
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     signUp, { error: '' }
   );
@@ -58,13 +69,14 @@ export default function InvitationCard() {
     setIsPending(true)
 
     if (cardRef.current) {
-      const scale = 2;
+      const scale = 4;
       const canvas = await html2canvas(cardRef.current, {
         scale,
         useCORS: true,
         allowTaint: false,
         logging: false,
         backgroundColor: null,
+        removeContainer: true,
       })
       const resizedCanvas = document.createElement('canvas');
       const ctx = resizedCanvas.getContext('2d');
@@ -77,7 +89,7 @@ export default function InvitationCard() {
 
       ctx?.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, width, height);
 
-      const base64 = resizedCanvas.toDataURL('image/png');
+      const base64 = resizedCanvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
       link.download = 'invitation-card.png';
       link.href = base64;
@@ -85,14 +97,14 @@ export default function InvitationCard() {
       const formData = new FormData();
       formData.append('avatar', file);
       console.log(dataForm);
-      
+
       Object.entries(dataForm).forEach(([key, value]) => {
         formData.append(key, value);
       });
       formData.append('role', '');
-      startTransition(() => {
-        formAction(formData)
-      })
+      // startTransition(() => {
+      //   formAction(formData)
+      // })
       // const res = await fetch('/api/upload-avatar', {
       //   method: 'POST',
       //   body: formData,
@@ -109,73 +121,139 @@ export default function InvitationCard() {
     setIsAllow(true);
   }
 
+
   return (
-    <div className='mx-auto'>
-      <div className='md:w-[fit-content] mx-auto'>
-        <div className='flex flex-col md:flex-row items-center gap-4 justify-center'>
-          <div className='h-full py-4 md:py-0 md:h-[500px] max-w-sm flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
-            <div className='mb-2 w-full'>
-              <label className='block text-sm font-medium text-gray-700 mb-1'>Tải ảnh lên:</label>
 
-              <label className='flex items-center justify-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition'>
-                <span className='text-sm text-gray-700'>Chọn ảnh từ thiết bị</span>
-                <input
-                  type='file'
-                  accept='image/*'
-                  onChange={handleUpload}
-                  className='hidden'
-                />
-              </label>
-            </div>
-            <FormExample onCallBack={changeValueEvent} />
-          </div>
-          <div>
-            <div
-              ref={cardRef}
-              className='w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center py-4 px-2 flex flex-col items-center justify-center gap-4'
-            >
-              <div className='relative'>
-                <div className='w-56 h-full object-cover rounded-full shadow overflow-hidden'>
-                  <div className='w-56 h-56'>
-                    {avatarUrl ? (
-                      <ImagePan src={avatarUrl} />
-                    ) : null}
-                  </div>
+    <TransformWrapper
+      ref={transformRef}
+      initialScale={1}
+      minScale={0.5}
+      maxScale={100}
+      onZoomStop={(ref) => setZoomValue(ref.state.scale)}
+    >
+      {() => (
+        <div className='mx-auto'>
+          <div className='md:w-[fit-content] mx-auto'>
+            <div className='flex flex-col md:flex-row items-center gap-4 justify-center'>
+              <div className='h-full py-4 md:py-0 md:h-[500px] max-w-sm flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
+                <div
+                  className="w-full h-40 border-2 border-dashed border-gray-300 rounded-xl bg-[url('data:image/svg+xml;utf8,<svg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'><path fill=\\'%23eeeeee\\' d=\\'M0 0h40v1H0zm0 20h40v1H0zm0 20h40v1H0z\\'/></svg>')] bg-repeat bg-[length:40px_40px] flex flex-col items-center justify-center text-center cursor-pointer transition hover:bg-gray-50"
+                  onClick={handleClick}
+                >
+                  <UploadCloud className="w-10 h-10 text-blue-600 mb-2" />
+                  <p className="text-sm font-medium text-gray-800">
+                    Kéo thả hoặc <span className="text-blue-600 font-semibold">Bấm vào đây</span><br />
+                    để đăng tải hình ảnh
+                  </p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={inputRef}
+                    onChange={handleUpload}
+                    className="hidden"
+                  />
                 </div>
-                <div className='w-12 h-12 absolute -bottom-4 right-0'>
-                  <div className='rounded-sm overflow-hidden bg-white'>
-                    <QRCodeCanvas
-                      value={`DXMD-${dataForm.name}`}
-                      size={46}
-                      bgColor='#ffffff'
-                      fgColor='#000000'
-                      level='H'
-                      includeMargin
-                    />
+
+                <div className="flex items-center gap-2 my-2">
+                  <label className="text-sm">Phóng to:</label>
+                  <Controls />
+                </div>
+                <FormExample onCallBack={changeValueEvent} />
+              </div>
+              <div className='h-[500px] w-[300px] overflow-hidden'>
+                <div
+                  ref={cardRef}
+                  className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[192px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
+                  style={{
+                    backgroundImage: "url('/frame.png')",
+                    width: '900px',
+                    height: '1500px',
+                    transform: 'scale(0.33)',
+                    transformOrigin: 'top left',
+                  }}>
+                  <div className='relative'>
+                    <div className='w-[300px] h-full object-cover rounded-full shadow overflow-hidden'>
+                      <div className='w-[300px] h-[300px]'>
+
+                        <>
+                          <TransformComponent wrapperClass="transform-component">
+                            <div className="h-[300px] w-[300px] overflow-hidden">
+                              <img
+                                src={avatarUrl ?? ''}
+                                className="h-full w-auto object-cover"
+                                alt="Image"
+                              />
+                            </div>
+                          </TransformComponent>
+                        </>
+
+                      </div>
+                    </div>
+                    <div className='w-36 h-36 absolute top-0 -right-12'>
+                      <div className='rounded-sm overflow-hidden'>
+                        <QRCodeCanvas
+                          value={`DXMD-${dataForm.name}`}
+                          size={96}
+                          bgColor='transparent'
+                          fgColor='#fff'
+                          level='H'
+                          includeMargin
+                        />
+                      </div>
+                    </div>
+                    <div className='absolute bottom-0 w-[600px] -left-[150px]'>
+                      <h2 className='text-2xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0 }}>{dataForm.name}</h2>
+                      <div>
+                        <h3 className='text-xl text-white mt-0' style={{ margin: 0, padding: 0 }}>{dataForm.field_one}</h3>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <h2 className='text-xl font-bold'>{dataForm.name}</h2>
-              <p className='text-lg text-gray-700'>You're invited to</p>
-              <div>
-                <h3 className='text-md text-purple-600'>{dataForm.field_one}</h3>
-                <h3 className='text-md text-purple-600'>{dataForm.field_two}</h3>
-                <h3 className='text-md text-purple-600'>{dataForm.field_three}</h3>
-              </div>
-              <p className='text-sm text-gray-500 mt-4'>Save the date!</p>
             </div>
-          </div>
-        </div>
 
-        <form action={handleDownload}>
-          {isAllow ? <button
-            className='mt-4 bg-cyan-200 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-300 w-full'
-          >
-            Tải thẻ mời xuống
-          </button> : null}
-        </form>
-      </div>
-      <LoadingModal isOpen={isPending} />
-    </div>
+            <form action={handleDownload}>
+              {isAllow ? <button
+                className='mt-4 bg-cyan-200 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-300 w-full'
+              >
+                Tải thẻ mời xuống
+              </button> : null}
+            </form>
+          </div>
+          <LoadingModal isOpen={isPending} />
+        </div>)}
+    </TransformWrapper>
   );
 }
+
+const Controls = () => {
+  const { zoomIn, zoomOut, resetTransform } = useControls();
+
+  return (
+    <div className="relative left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg flex gap-3 z-50 border border-gray-200">
+      <button
+        onClick={() => zoomIn()}
+        className="w-10 h-10 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
+        title="Zoom In"
+      >
+        +
+      </button>
+      <button
+        onClick={() => zoomOut()}
+        className="w-10 h-10 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
+        title="Zoom Out"
+      >
+        −
+      </button>
+      <button
+        onClick={() => resetTransform()}
+        className="w-10 h-10 rounded-md bg-gray-500 text-white text-xl font-semibold hover:bg-gray-600 transition"
+        title="Reset Zoom"
+      >
+        ⟳
+      </button>
+    </div>
+
+  );
+};
+

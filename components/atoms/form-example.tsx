@@ -84,7 +84,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             <>
                                 <div className="mb-2">
                                     <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                                        Trường 1:
+                                        Chức vụ:
                                     </label>
                                     <input
                                         id={field.name}
@@ -101,7 +101,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                         )}
                     />
                 </div>
-                <div>
+                {/* <div>
                     <form.Field
                         name="field_two"
                         children={(field) => (
@@ -148,7 +148,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             </>
                         )}
                     />
-                </div>
+                </div> */}
                 <div>
                     <form.Field
                         name="email"
