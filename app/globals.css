@@ -283,7 +283,7 @@
   font-family: 'SVN Gotham Book';
   src: url('/fonts/SVN-Gotham-Light.otf') format('opentype'),
        url('/fonts/SVN-Gotham-Light.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
