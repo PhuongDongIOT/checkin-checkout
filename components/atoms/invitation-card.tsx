@@ -11,16 +11,18 @@ import { ImagePan } from './image-pan';
 
 export type FormEvent = {
   name: string;
-  event: string;
+  field_one: string;
+  field_two: string;
+  field_three: string;
   email: string;
 }
-
 export const event: FormEvent = {
   name: '',
-  event: '',
+  field_one: '',
+  field_two: '',
+  field_three: '',
   email: '',
 }
-
 export function base64ToFile(base64: string, filename: string): File {
   const arr = base64.split(',');
   const mime = arr[0].match(/:(.*?);/)?.[1] || '';
@@ -36,16 +38,14 @@ export function base64ToFile(base64: string, filename: string): File {
 }
 
 export default function InvitationCard() {
-  const [isPending, setIsPending] = useState<boolean>(false)
+  const [isPending, setIsPending] = useState<boolean>(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [isAllow, setIsAllow] = useState<boolean>(false)
+  const [isAllow, setIsAllow] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState<FormEvent>(event);
   const cardRef = useRef<HTMLDivElement>(null);
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     signUp, { error: '' }
   );
-
-
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,7 +53,6 @@ export default function InvitationCard() {
       setAvatarUrl(URL.createObjectURL(file));
     }
   };
-
 
   const handleDownload = async () => {
     setIsPending(true)
@@ -81,23 +80,24 @@ export default function InvitationCard() {
       const base64 = resizedCanvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.download = 'invitation-card.png';
-      // let base64 = canvas.toDataURL('image/png');
       link.href = base64;
       const file = base64ToFile(base64, 'avatar.png');
       const formData = new FormData();
       formData.append('avatar', file);
+      console.log(dataForm);
+      
       Object.entries(dataForm).forEach(([key, value]) => {
         formData.append(key, value);
       });
-      formData.append('password', 'password');
+      formData.append('role', '');
       startTransition(() => {
         formAction(formData)
       })
-      const res = await fetch('/api/upload-avatar', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
+      // const res = await fetch('/api/upload-avatar', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
+      // const data = await res.json();
       link.click();
       setIsAllow(false);
     }
@@ -110,59 +110,70 @@ export default function InvitationCard() {
   }
 
   return (
-    <div className='mx-auto max-w-sm'>
-      <div className="flex flex-col items-center gap-4 p-6">
-        <div className="mb-4 w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tải ảnh lên:</label>
+    <div className='mx-auto'>
+      <div className='md:w-[fit-content] mx-auto'>
+        <div className='flex flex-col md:flex-row items-center gap-4 justify-center'>
+          <div className='h-full py-4 md:py-0 md:h-[500px] max-w-sm flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
+            <div className='mb-2 w-full'>
+              <label className='block text-sm font-medium text-gray-700 mb-1'>Tải ảnh lên:</label>
 
-          <label className="flex items-center justify-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition">
-            <span className="text-sm text-gray-700">Chọn ảnh từ thiết bị</span>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleUpload}
-              className="hidden"
-            />
-          </label>
-        </div>
-        <FormExample onCallBack={changeValueEvent} />
-        <div
-          ref={cardRef}
-          className="w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center py-4 px-2 flex flex-col items-center justify-center gap-4"
-        >
-          <div className='relative'>
-            <div className='w-56 h-full object-cover rounded-full shadow overflow-hidden'>
-              <div className='w-56 h-56'>
-                {avatarUrl ? (
-                  <ImagePan src={avatarUrl} />
-                ) : null}
-              </div>
-            </div>
-            <div className="w-12 h-12 absolute -bottom-4 right-0">
-              <div className='rounded-sm overflow-hidden bg-white'>
-                <QRCodeCanvas
-                  value={`DXMD-${dataForm.name}`}
-                  size={46}
-                  bgColor="#ffffff"
-                  fgColor="#000000"
-                  level="H"
-                  includeMargin
+              <label className='flex items-center justify-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition'>
+                <span className='text-sm text-gray-700'>Chọn ảnh từ thiết bị</span>
+                <input
+                  type='file'
+                  accept='image/*'
+                  onChange={handleUpload}
+                  className='hidden'
                 />
+              </label>
+            </div>
+            <FormExample onCallBack={changeValueEvent} />
+          </div>
+          <div>
+            <div
+              ref={cardRef}
+              className='w-[350px] h-[500px] bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center py-4 px-2 flex flex-col items-center justify-center gap-4'
+            >
+              <div className='relative'>
+                <div className='w-56 h-full object-cover rounded-full shadow overflow-hidden'>
+                  <div className='w-56 h-56'>
+                    {avatarUrl ? (
+                      <ImagePan src={avatarUrl} />
+                    ) : null}
+                  </div>
+                </div>
+                <div className='w-12 h-12 absolute -bottom-4 right-0'>
+                  <div className='rounded-sm overflow-hidden bg-white'>
+                    <QRCodeCanvas
+                      value={`DXMD-${dataForm.name}`}
+                      size={46}
+                      bgColor='#ffffff'
+                      fgColor='#000000'
+                      level='H'
+                      includeMargin
+                    />
+                  </div>
+                </div>
               </div>
+              <h2 className='text-xl font-bold'>{dataForm.name}</h2>
+              <p className='text-lg text-gray-700'>You're invited to</p>
+              <div>
+                <h3 className='text-md text-purple-600'>{dataForm.field_one}</h3>
+                <h3 className='text-md text-purple-600'>{dataForm.field_two}</h3>
+                <h3 className='text-md text-purple-600'>{dataForm.field_three}</h3>
+              </div>
+              <p className='text-sm text-gray-500 mt-4'>Save the date!</p>
             </div>
           </div>
-          <h2 className="text-xl font-bold">{dataForm.name}</h2>
-          <p className="text-lg text-gray-700">You're invited to</p>
-          <h3 className="text-2xl font-semibold text-purple-600">{dataForm.event}</h3>
-          <p className="text-sm text-gray-500 mt-4">Save the date!</p>
         </div>
 
-        {isAllow ? <button
-          onClick={handleDownload}
-          className="bg-green-600 text-white mx-2 py-2 rounded hover:bg-green-700 w-full"
-        >
-          Tải thẻ mời xuống
-        </button> : null}
+        <form action={handleDownload}>
+          {isAllow ? <button
+            className='mt-4 bg-cyan-200 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-300 w-full'
+          >
+            Tải thẻ mời xuống
+          </button> : null}
+        </form>
       </div>
       <LoadingModal isOpen={isPending} />
     </div>
