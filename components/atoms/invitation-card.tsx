@@ -135,7 +135,7 @@ export default function InvitationCard() {
         <div className='mx-auto'>
           <div className='md:w-[fit-content] mx-auto'>
             <div className='flex flex-col md:flex-row items-center gap-4 justify-center'>
-              <div className='h-full py-4 md:py-0 md:h-[500px] max-w-[300px] flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
+              <div className='h-full py-4 md:py-0 md:h-[500px] max-w-[282px] flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
                 <div
                   className="w-full h-36 border-2 border-dashed border-gray-300 rounded-xl bg-[url('data:image/svg+xml;utf8,<svg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'><path fill=\\'%23eeeeee\\' d=\\'M0 0h40v1H0zm0 20h40v1H0zm0 20h40v1H0z\\'/></svg>')] bg-repeat bg-[length:40px_40px] flex flex-col items-center justify-center text-center cursor-pointer transition hover:bg-gray-50"
                   onClick={handleClick}
@@ -159,10 +159,10 @@ export default function InvitationCard() {
                 </div>
                 <FormExample onCallBack={changeValueEvent} />
               </div>
-              <div className='h-[500px] w-[300px] overflow-hidden'>
+              <div className='h-[500px] w-[282px] overflow-hidden'>
                 <div
                   ref={cardRef}
-                  className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[192px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
+                  className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[204px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
                   style={{
                     backgroundImage: "url('/frame.png')",
                     width: '900px',
@@ -171,24 +171,21 @@ export default function InvitationCard() {
                     transformOrigin: 'top left',
                   }}>
                   <div className='relative'>
-                    <div className='w-[300px] h-full object-cover rounded-full shadow overflow-hidden'>
-                      <div className='w-[300px] h-[300px]'>
-
-                        <>
+                    <div className='w-[282px] h-full object-cover rounded-full shadow overflow-hidden'>
+                      <div className='w-[282px] h-[282px] relative'>
                           <TransformComponent wrapperClass="transform-component">
-                            <div className="h-[300px] w-[300px] overflow-hidden">
+                            <div className="h-[282px] w-[282px] overflow-hidden relative">
                               <img
                                 src={avatarUrl ?? ''}
                                 className="h-full w-auto object-cover"
-                                alt="Image"
+                                alt=""
                               />
                             </div>
                           </TransformComponent>
-                        </>
-
+                          <div className="absolute inset-x-0 bottom-0 h-30 bg-gradient-to-t from-[rgba(17,39,80,1)] via-[rgba(17,39,80,0.8)] to-transparent pointer-events-none"></div>
                       </div>
                     </div>
-                    <div className='w-36 h-36 absolute top-0 -right-12'>
+                    {/* <div className='w-36 h-36 absolute top-0 -right-12'>
                       <div className='rounded-sm overflow-hidden'>
                         <QRCodeCanvas
                           value={`DXMD-${dataForm.name}`}
@@ -199,8 +196,8 @@ export default function InvitationCard() {
                           includeMargin
                         />
                       </div>
-                    </div>
-                    <div className='absolute bottom-0 w-[600px] -left-[150px]'>
+                    </div> */}
+                    <div className='absolute bottom-0 w-[600px] -left-[146px]'>
                       <h2 className='text-2xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0 }}>{dataForm.name}</h2>
                       <div>
                         <h3 className='text-xl text-white mt-0' style={{ margin: 0, padding: 0 }}>{dataForm.field_one}</h3>

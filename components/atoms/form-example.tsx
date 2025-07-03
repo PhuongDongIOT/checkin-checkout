@@ -149,7 +149,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                         )}
                     />
                 </div> */}
-                <div>
+                {/* <div>
                     <form.Field
                         name="email"
                         children={(field) => (
@@ -173,7 +173,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             </>
                         )}
                     />
-                </div>
+                </div> */}
                 <form.Subscribe
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                     children={([canSubmit, isSubmitting]) => (
@@ -181,7 +181,7 @@ export default function FormExample({ onCallBack }: FormExampleProps) {
                             type="submit"
                             disabled={!canSubmit}
                             className={`
-                                px-6 py-2 rounded-md font-medium transition w-full 
+                                mt-4 px-6 py-2 rounded-md font-medium transition w-full 
                                 ${canSubmit
                                     ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
                                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
