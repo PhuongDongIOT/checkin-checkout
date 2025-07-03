@@ -159,49 +159,43 @@ export default function InvitationCard() {
                 </div>
                 <FormExample onCallBack={changeValueEvent} />
               </div>
-              <div className='h-[500px] w-[282px] overflow-hidden'>
+              <div className='h-[500px] w-[300px] overflow-hidden'>
                 <div
                   ref={cardRef}
                   className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[204px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
                   style={{
-                    backgroundImage: "url('/frame.png')",
                     width: '900px',
                     height: '1500px',
                     transform: 'scale(0.33)',
                     transformOrigin: 'top left',
                   }}>
+                  <div className="absolute inset-0 z-10  pointer-events-none">
+                    <img
+                      src="/frame.png"
+                      alt="Frame"
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  </div>
                   <div className='relative'>
                     <div className='w-[282px] h-full object-cover rounded-full shadow overflow-hidden'>
                       <div className='w-[282px] h-[282px] relative'>
-                          <TransformComponent wrapperClass="transform-component">
-                            <div className="h-[282px] w-[282px] overflow-hidden relative">
-                              <img
-                                src={avatarUrl ?? ''}
-                                className="h-full w-auto object-cover"
-                                alt=""
-                              />
-                            </div>
-                          </TransformComponent>
-                          <div className="absolute inset-x-0 bottom-0 h-30 bg-gradient-to-t from-[rgba(17,39,80,1)] via-[rgba(17,39,80,0.8)] to-transparent pointer-events-none"></div>
+                        <TransformComponent wrapperClass="transform-component">
+                          <div className="h-[282px] w-[282px] overflow-hidden relative z-0">
+                            {avatarUrl ? <img
+                              src={avatarUrl ?? ''}
+                              className="h-full w-auto object-cover"
+                              alt=""
+                            /> : null}
+                          </div>
+                        </TransformComponent>
                       </div>
                     </div>
-                    {/* <div className='w-36 h-36 absolute top-0 -right-12'>
-                      <div className='rounded-sm overflow-hidden'>
-                        <QRCodeCanvas
-                          value={`DXMD-${dataForm.name}`}
-                          size={96}
-                          bgColor='transparent'
-                          fgColor='#fff'
-                          level='H'
-                          includeMargin
-                        />
-                      </div>
-                    </div> */}
-                    <div className='absolute bottom-0 w-[600px] -left-[146px]'>
-                      <h2 className='text-2xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0 }}>{dataForm.name}</h2>
-                      <div>
-                        <h3 className='text-xl text-white mt-0' style={{ margin: 0, padding: 0 }}>{dataForm.field_one}</h3>
-                      </div>
+                  </div>
+
+                  <div className='relative z-20 -top-20'>
+                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px' ,fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>{dataForm.name}</h2>
+                    <div>
+                      <h3 className='text-xl text-white mt-0 font-normal' style={{ margin: 0, marginTop: '2px', padding: 0, letterSpacing: '2px', color: 'rgba(255,255,255,0.8)', fontWeight: 200 }}>{dataForm.field_one ? `(${dataForm.field_one})` : ''}</h3>
                     </div>
                   </div>
                 </div>
