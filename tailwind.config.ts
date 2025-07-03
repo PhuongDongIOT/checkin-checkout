@@ -6,9 +6,13 @@ export default {
   },
   theme: {
     extend: {
+      fontFamily: {
+        gotham: ['"SVN Gotham"', 'sans-serif'],
+        gothambook: ['"SVN Gotham Book"', 'sans-serif'],
+      },
       colors: {
         red: {
-          500: '#ef4444',
+          500: '#000',
           600: '#dc2626',
         },
         blue: {
