@@ -162,20 +162,14 @@ export default function InvitationCard() {
               <div className='h-[500px] w-[300px] overflow-hidden'>
                 <div
                   ref={cardRef}
-                  className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[204px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
+                  className='bg-gradient-to-br from-pink-200 to-yellow-100 shadow-lg rounded-xl text-center pt-[203px] px-2 flex flex-col items-center gap-4 bg-center bg-cover'
                   style={{
                     width: '900px',
                     height: '1500px',
                     transform: 'scale(0.33)',
                     transformOrigin: 'top left',
+                    backgroundImage: 'url(/frame.png)',
                   }}>
-                  <div className="absolute inset-0 z-10  pointer-events-none">
-                    <img
-                      src="/frame.png"
-                      alt="Frame"
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                  </div>
                   <div className='relative'>
                     <div className='w-[282px] h-full object-cover rounded-full shadow overflow-hidden'>
                       <div className='w-[282px] h-[282px] relative'>
@@ -188,12 +182,19 @@ export default function InvitationCard() {
                             /> : null}
                           </div>
                         </TransformComponent>
+                        <div className='absolute h-[283px] w-[283px] rounded-full z-20 top-0  pointer-events-none'>
+                          <img
+                            src='/frame-cut.png'
+                            className="h-full w-full object-contain"
+                            alt=""
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div className='relative z-20 -top-20'>
-                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px' ,fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>{dataForm.name}</h2>
+                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', fontWeight: 400, color: 'rgba(255,255,255,0.8)' }}>{dataForm.name}</h2>
                     <div>
                       <h3 className='text-xl text-white mt-0 font-normal' style={{ margin: 0, marginTop: '2px', padding: 0, letterSpacing: '2px', color: 'rgba(255,255,255,0.8)', fontWeight: 200 }}>{dataForm.field_one ? `(${dataForm.field_one})` : ''}</h3>
                     </div>
@@ -203,11 +204,11 @@ export default function InvitationCard() {
             </div>
 
             <form action={handleDownload}>
-              {isAllow ? <button
+              <button
                 className='mt-4 bg-cyan-200 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-300 w-full'
               >
                 Tải thẻ mời xuống
-              </button> : null}
+              </button>
             </form>
           </div>
           <LoadingModal isOpen={isPending} />
