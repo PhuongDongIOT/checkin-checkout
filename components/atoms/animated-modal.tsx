@@ -14,7 +14,7 @@ export default function AnimatedModal({ isOpen, onClose, children }: Props) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
