@@ -135,9 +135,9 @@ export default function InvitationCard() {
         <div className='mx-auto'>
           <div className='md:w-[fit-content] mx-auto'>
             <div className='flex flex-col md:flex-row items-center gap-4 justify-center'>
-              <div className='h-full py-4 md:py-0 md:h-[500px] max-w-sm flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
+              <div className='h-full py-4 md:py-0 md:h-[500px] max-w-[300px] flex flex-col items-center justify-center rounded-xl w-full md:w-md px-6 bg-gradient-to-br from-pink-200 via-pink-50 to-pink-100'>
                 <div
-                  className="w-full h-40 border-2 border-dashed border-gray-300 rounded-xl bg-[url('data:image/svg+xml;utf8,<svg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'><path fill=\\'%23eeeeee\\' d=\\'M0 0h40v1H0zm0 20h40v1H0zm0 20h40v1H0z\\'/></svg>')] bg-repeat bg-[length:40px_40px] flex flex-col items-center justify-center text-center cursor-pointer transition hover:bg-gray-50"
+                  className="w-full h-36 border-2 border-dashed border-gray-300 rounded-xl bg-[url('data:image/svg+xml;utf8,<svg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 40 40\\' xmlns=\\'http://www.w3.org/2000/svg\\'><path fill=\\'%23eeeeee\\' d=\\'M0 0h40v1H0zm0 20h40v1H0zm0 20h40v1H0z\\'/></svg>')] bg-repeat bg-[length:40px_40px] flex flex-col items-center justify-center text-center cursor-pointer transition hover:bg-gray-50"
                   onClick={handleClick}
                 >
                   <UploadCloud className="w-10 h-10 text-blue-600 mb-2" />
@@ -155,7 +155,6 @@ export default function InvitationCard() {
                 </div>
 
                 <div className="flex items-center gap-2 my-2">
-                  <label className="text-sm">Phóng to:</label>
                   <Controls />
                 </div>
                 <FormExample onCallBack={changeValueEvent} />
@@ -230,24 +229,24 @@ const Controls = () => {
   const { zoomIn, zoomOut, resetTransform } = useControls();
 
   return (
-    <div className="relative left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg flex gap-3 z-50 border border-gray-200">
+    <div className="relative left-1/2 -translate-x-1/2 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg flex gap-3 z-50 border border-gray-200">
       <button
         onClick={() => zoomIn()}
-        className="w-10 h-10 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
+        className="w-8 h-8 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
         title="Zoom In"
       >
         +
       </button>
       <button
         onClick={() => zoomOut()}
-        className="w-10 h-10 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
+        className="w-8 h-8 rounded-md bg-blue-500 text-white text-xl font-semibold hover:bg-blue-600 transition"
         title="Zoom Out"
       >
         −
       </button>
       <button
         onClick={() => resetTransform()}
-        className="w-10 h-10 rounded-md bg-gray-500 text-white text-xl font-semibold hover:bg-gray-600 transition"
+        className="w-8 h-8 rounded-md bg-gray-500 text-white text-xl font-semibold hover:bg-gray-600 transition"
         title="Reset Zoom"
       >
         ⟳
