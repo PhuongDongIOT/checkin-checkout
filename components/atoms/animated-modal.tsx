@@ -3,13 +3,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
-type Props = {
+type AnimatedModalProps = {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 };
-
-export default function AnimatedModal({ isOpen, onClose, children }: Props) {
+export default function AnimatedModal({ isOpen, onClose, children }: AnimatedModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
