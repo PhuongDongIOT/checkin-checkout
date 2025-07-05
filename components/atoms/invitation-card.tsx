@@ -168,7 +168,7 @@ export default function InvitationCard() {
                     height: '1500px',
                     transform: 'scale(0.33)',
                     transformOrigin: 'top left',
-                    backgroundImage: 'url(/frame.png)',
+                    backgroundImage: 'url(/frame-sale.png)',
                   }}>
                   <div className='relative'>
                     <div className='w-[282px] h-full object-cover rounded-full shadow overflow-hidden'>
