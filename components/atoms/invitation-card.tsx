@@ -196,7 +196,7 @@ export default function InvitationCard() {
                   <div className='relative z-20 -top-14'>
                     <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', color: 'rgba(255,255,255,0.7)', fontFamily: 'SVN Gotham' }}>{dataForm.name}</h2>
                     <div>
-                      <h3 className='text-xl text-white mt-0 font-normal' style={{ margin: 0, marginTop: '2px', padding: 0, letterSpacing: '2px', color: 'rgba(255,255,255,0.7)', fontWeight: 100, fontFamily: 'SVN Gotham Book' }}>{dataForm.field_one}</h3>
+                      <h3 className='text-xl text-white mt-0 font-normal' style={{ margin: '4px 0 0', padding: 0, letterSpacing: '2px', color: 'rgba(255,255,255,0.7)', fontWeight: 100, fontFamily: 'SVN Gotham Book' }}>{dataForm.field_one}</h3>
                     </div>
                   </div>
                 </div>
