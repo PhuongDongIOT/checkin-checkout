@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
 import { Resend } from 'resend';
-import { appendRow } from '@/lib/services/sheet-google';
+// import { appendRow } from '@/lib/services/sheet-google';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -16,12 +16,12 @@ cloudinary.config({
 export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get('avatar') as File;
-    const to = formData.get('email') as string;
-    const name = formData.get('name') as string;
+    // const to = formData.get('email') as string;
+    // const name = formData.get('name') as string;
 
-    if (!to || !file) {
-        return NextResponse.json({ error: 'Missing email or QR data' }, { status: 400 });
-    }
+    // if (!to || !file) {
+    //     return NextResponse.json({ error: 'Missing email or QR data' }, { status: 400 });
+    // }
 
     const arrayBuffer = await file.arrayBuffer();
     // const base64 = Buffer.from(arrayBuffer).toString('base64');
@@ -34,14 +34,31 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await new Promise((resolve, reject) => {
+    // const result = await new Promise((resolve, reject) => {
+    //     const uploadStream = cloudinary.uploader.upload_stream(
+    //         {
+    //             folder: 'avatars',
+    //             transformation: [
+    //                 { width: 300, height: 500, crop: 'thumb', gravity: 'face' },
+    //                 { fetch_format: 'auto', quality: 'auto' }
+    //             ],
+    //         },
+    //         (error, result) => {
+    //             if (error) return reject(error);
+    //             resolve(result);
+    //         }
+    //     );
+
+    //     Readable.from(buffer).pipe(uploadStream);
+    // });
+    const result: any = await new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
             {
                 folder: 'avatars',
-                transformation: [
-                    { width: 300, height: 500, crop: 'thumb', gravity: 'face' },
-                    { fetch_format: 'auto', quality: 'auto' }
-                ],
+                resource_type: 'image',
+                use_filename: true,
+                unique_filename: false,
+                overwrite: true,
             },
             (error, result) => {
                 if (error) return reject(error);
@@ -53,7 +70,7 @@ export async function POST(req: Request) {
     });
 
     // const imageUrl = (result as any).secure_url;
-    
+
     //  await resend.emails.send({
     //     from: 'anything@marketing.dxmd.vn',
     //     to,
@@ -64,5 +81,5 @@ export async function POST(req: Request) {
     // });
 
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: result.url });
 }

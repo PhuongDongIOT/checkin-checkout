@@ -54,6 +54,7 @@ export default function InvitationCard() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isAllow, setIsAllow] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState<FormEvent>(event);
+  const [link, setLink] = useState<string>('');
   const cardRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null)
@@ -112,11 +113,16 @@ export default function InvitationCard() {
       // startTransition(() => {
       //   formAction(formData)
       // })
-      // const res = await fetch('/api/upload-avatar', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-      // const data = await res.json();
+      try {
+        const res = await fetch('/api/upload-avatar', {
+          method: 'POST',
+          body: formData,
+        });
+        const data: any = await res.json();
+        setLink(data?.success ?? '')      
+      } catch (error) {
+
+      }
       link.click();
       setIsAllow(false);
     }
@@ -202,7 +208,7 @@ export default function InvitationCard() {
                   </div>
 
                   <div className='relative z-20 -top-14'>
-                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', color: 'rgba(255,255,255,0.7)', fontFamily: 'SVN Gotham' , fontWeight: 400}}>{dataForm.name}</h2>
+                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', color: 'rgba(255,255,255,0.7)', fontFamily: 'SVN Gotham', fontWeight: 400 }}>{dataForm.name}</h2>
                     <div>
                       <h3 className='text-xl text-white mt-0 font-normal small-text'>{dataForm.field_one}</h3>
                     </div>
@@ -218,6 +224,12 @@ export default function InvitationCard() {
                 Tải thẻ mời xuống
               </button>
             </form> : null}
+             {link ? 
+              <a href={`${link}`}><button
+                className='mt-4 bg-cyan-300 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-400 w-full'
+              >
+                Nếu ảnh không tải vui lòng nhấn vào đây
+              </button></a> : null}
           </div>
           <LoadingModal isOpen={isPending} />
         </div>)}
