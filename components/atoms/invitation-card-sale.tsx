@@ -1,15 +1,14 @@
 'use client';
 
-import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
+import { useActionState, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
-import { QRCodeCanvas } from 'qrcode.react';
 import FormExample from './form-example';
 import { signUp } from '@/app/(login)/actions';
 import { ActionState } from '@/lib/auth/middleware';
 import LoadingModal from './loading-modal';
-import { ImagePan } from './image-pan';
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch';
 import { UploadCloud } from 'lucide-react';
+import './index.css';
 
 export type FormEvent = {
   name: string;
@@ -24,6 +23,14 @@ export const event: FormEvent = {
   field_two: '',
   field_three: '',
   email: '',
+}
+
+function toUppercaseValues(obj: FormEvent): FormEvent {
+  const uppercased = Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, value.toUpperCase()])
+  ) as FormEvent;
+
+  return uppercased;
 }
 
 
@@ -41,12 +48,13 @@ export function base64ToFile(base64: string, filename: string): File {
   return new File([u8arr], filename, { type: mime });
 }
 
-export default function InvitationCardSale() {
+export default function InvitationCard() {
   const [zoomValue, setZoomValue] = useState(1);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isAllow, setIsAllow] = useState<boolean>(false);
   const [dataForm, setDataForm] = useState<FormEvent>(event);
+  const [link, setLink] = useState<string>('');
   const cardRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null)
@@ -105,11 +113,16 @@ export default function InvitationCardSale() {
       // startTransition(() => {
       //   formAction(formData)
       // })
-      // const res = await fetch('/api/upload-avatar', {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-      // const data = await res.json();
+      try {
+        const res = await fetch('/api/upload-avatar', {
+          method: 'POST',
+          body: formData,
+        });
+        const data: any = await res.json();
+        setLink(data?.success ?? '')      
+      } catch (error) {
+
+      }
       link.click();
       setIsAllow(false);
     }
@@ -117,6 +130,7 @@ export default function InvitationCardSale() {
   };
 
   const changeValueEvent = (value: FormEvent) => {
+    value = toUppercaseValues(value);
     setDataForm(value);
     setIsAllow(true);
   }
@@ -194,9 +208,9 @@ export default function InvitationCardSale() {
                   </div>
 
                   <div className='relative z-20 -top-14'>
-                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', color: 'rgba(255,255,255,0.7)', fontFamily: 'SVN Gotham' }}>{dataForm.name}</h2>
+                    <h2 className='text-4xl font-bold text-white -mb-2' style={{ margin: 0, padding: 0, letterSpacing: '3px', color: 'rgba(255,255,255,0.7)', fontFamily: 'SVN Gotham', fontWeight: 400 }}>{dataForm.name}</h2>
                     <div>
-                      <h3 className='text-xl text-white mt-0 font-normal' style={{ margin: 0, marginTop: '0px', padding: 0, letterSpacing: '2px', color: 'rgba(255,255,255,0.7)', fontWeight: 100, fontFamily: 'SVN Gotham Book' }}>{dataForm.field_one}</h3>
+                      <h3 className='text-xl text-white mt-0 font-normal small-text'>{dataForm.field_one}</h3>
                     </div>
                   </div>
                 </div>
@@ -210,6 +224,12 @@ export default function InvitationCardSale() {
                 Tải thẻ mời xuống
               </button>
             </form> : null}
+             {link ? 
+              <a href={`${link}`}><button
+                className='mt-4 bg-cyan-300 text-black font-bold mx-2 py-2 rounded hover:bg-cyan-400 w-full'
+              >
+                Nếu ảnh không tải vui lòng nhấn vào đây
+              </button></a> : null}
           </div>
           <LoadingModal isOpen={isPending} />
         </div>)}

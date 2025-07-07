@@ -4,7 +4,7 @@ import { Readable } from 'stream';
 import { Resend } from 'resend';
 // import { appendRow } from '@/lib/services/sheet-google';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
